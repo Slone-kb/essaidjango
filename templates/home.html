@@ -3,13 +3,17 @@
 {% block title %} home {% endblock  %}
 
 
+<main>
+
 {% block content %}
+{% include "navbar.html" %}
 <h2>Page Acceuil</h2>
-
-
+{{user}}
+<center>{{liste1}}</center>
+{% include "home_content.html" %}
 {% endblock %}
 
-
+</main>
 
 
 
