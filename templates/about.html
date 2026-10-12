@@ -2,15 +2,32 @@
 
 {% block title %} About {% endblock  %}
 
-<main>
+
 
 {% block content %}
+
+<main>
 <h2>Page About</h2>
 
+<h1>{{ title|upper|cut:"U" }}</h1>
+<ul>
+{% for fruit in liste_fruits %} 
+    <li>{{ fruit|add:" (fruit)" }}</li>
+{% endfor %}
+</ul>
+{% for i in liste %}
+{{ i |add:10}}<br>
+{% endfor %}
 
-{% endblock %}
+{{html}}
+
+{{html|safe}}
+
 
 </main>
+{% endblock content %}
+
+
 
 
 

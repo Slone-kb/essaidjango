@@ -1,22 +1,35 @@
 {% extends 'base.html' %}
 
-{% block title %} home {% endblock  %}
-
-
-<main>
-
-{% block content %}
-{% include "navbar.html" %}
-<h2>Page Acceuil</h2>
-{{user}}
-<center>{{liste1}}</center>
-{% include "home_content.html" %}
-{% endblock %}
-
-</main>
+{% block title %} home {% endblock %}
 
 
 
 
+    {% block content %}
+    <main>
 
+     {% include "navbar.html" %}
+     <h2>Page Acceuil</h2>
+     {{user}}
+     <center>{{liste1}}</center>
+
+     {% if request.user.username == "slone" %}
+
+     <h1>Bienvenue Slone </h1>
+
+     {% for i in liste1 %}
+      <li>{{ forloop.counter }} - {{ i }} </li>
+     {% endfor %}
+      {% else %}
+
+      <h1>Bienvenue Invite </h1>
+
+      {% endif %}
+
+
+
+       {% include "home_content.html" %}
+
+       </main>
+    {% endblock content %}
 

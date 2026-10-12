@@ -17,7 +17,20 @@ def home_views(request):
    return render(request,'home.html', context)
 
 def about_views(request):
-   return render(request, 'about.html')
+   liste_fruits = ['pomme', 'banane', 'orange']
+   liste = [1, 2, 3]
+   user = request.user
+   title = "About Us"
+   context = {
+      'liste_fruits': liste_fruits,
+      'liste': liste,
+      'user': user,
+      'title': 'about us',
+
+      'html': '<br>Hello, World!',
+
+   }
+   return render(request, 'about.html', context)
 
 
 def contact_views(request):
