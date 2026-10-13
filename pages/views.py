@@ -27,7 +27,7 @@ def about_views(request):
       'user': user,
       'title': 'about us',
 
-      'html': '<br>Hello, World!',
+      'html': '<center> <br> Hello, World! </center>',
 
    }
    return render(request, 'about.html', context)
