@@ -1,5 +1,7 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from produits.models import Produits
+from .forms import ProduitsForms
 
 # Create your views here.
 def home_views(request):
@@ -36,6 +38,39 @@ def about_views(request):
 def contact_views(request):
    return render(request, 'contact.html')
    
+# 4. Afficher TOUS les produits (Liste)
+def produits_liste_views(request):
+    objects = Produits.objects.all()
+    context = {
+        'objects': objects
+    }
+    return render(request, 'produits/liste.html', context)
 
 
+#pour le formulaire de creation d un produit
+def produits_forms_views(request):
+    form=ProduitsForms(request.POST or None)
+    message=' '
    
+    
+    if request.method == 'POST':
+        form = ProduitsForms(request.POST )
+        if form.is_valid():
+            form.save()
+            message= "Produit créé avec succès"
+    else:
+        form = ProduitsForms()
+    context={
+                'message': message,
+               ' form': form,
+            }
+    return render(request, 'produits/create.html', context)
+
+# 5. Afficher UN SEUL produit (Détail par ID)
+def produits_details_views(request, id):
+    produits = get_object_or_404(Produits, id=id)
+    
+    context = {
+        'produits': produits
+    }
+    return render(request, 'produits/details.html', context)

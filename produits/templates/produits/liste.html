@@ -1,0 +1,17 @@
+{% extends 'base.html'%}
+
+{% block title %} liste des produits {% endblock title %}
+
+{% block content %}
+    <strong>Liste des produits</strong>
+    <ul>
+        {% for obj in objects %}
+            <li><a href="{% url 'produits_details' obj.id %}">{{ obj.nom }}</a></li>
+            <li> {{ obj.prix }}€</li>
+            <li> {{ obj.description }}</li>
+            <li> {{ obj.active }}</li>
+            <li> {{ obj.live }}</li>
+            <li> <a href="{% url 'produits_details' obj.id %}">Voir les détails</a></li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
