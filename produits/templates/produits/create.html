@@ -2,11 +2,18 @@
 {% block title %} create product {% endblock title %}
 
 {% block content %}
+{% include "navbar.html" %}
 <h1> Bienvenue pour la creation d'un nouveau produit</h1>
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit"> create product</button>
+    {% if message %}
+    <p style="color:green; font-weight:bold;"> {{message}}  <br>
+   
+    {% endif %}
+
+    
 </form>
 
 

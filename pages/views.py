@@ -1,3 +1,4 @@
+from django.core.mail import message
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from produits.models import Produits
@@ -58,12 +59,13 @@ def produits_forms_views(request):
         if form.is_valid():
             form.save()
             message= "Produit créé avec succès"
+            form = ProduitsForms()
     else:
         form = ProduitsForms()
-    context={
-                'message': message,
-               ' form': form,
-            }
+    context = {
+        'message': message,
+        'form': form,  # Correction : suppression de l'espace inutile
+    }
     return render(request, 'produits/create.html', context)
 
 # 5. Afficher UN SEUL produit (Détail par ID)
