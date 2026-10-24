@@ -76,3 +76,16 @@ def produits_details_views(request, id):
         'produits': produits
     }
     return render(request, 'produits/details.html', context)
+
+def produits_create_views(request):
+    message=' '
+    if request.method == 'POST':
+        nom= request.POST.get('nom')
+        description= request.POST.get('description')
+        prix=request.POST.get('prix')
+        active=request.POST.get('active')
+        live=request.POST.get('live')
+        if nom and prix:
+            produits=Produits.objects.create(nom = nom, description = description, prix = prix, active = active, live = live )
+            message = "Produit créé avec succès"
+            return render(request, 'produits/create.html', {'message': message})

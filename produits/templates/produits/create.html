@@ -4,7 +4,8 @@
 {% block content %}
 {% include "navbar.html" %}
 <h1> Bienvenue pour la creation d'un nouveau produit</h1>
-<form method="POST">
+
+<!-- <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit"> create product</button>
@@ -14,8 +15,32 @@
     {% endif %}
 
     
+</form> --> 
+  
+<!-- html formulaire -->
+
+<form method="POST"> 
+    {% csrf_token %}
+    <label for="nom">Nom:</label><br>
+    <input type="text" id="nom" name="nom" placeholder="entrer le nom"><br>
+
+    <label for="description">Description:</label><br>
+    <textarea name="description" id="description" placeholder="descrition" rows="3"></textarea><br>
+
+    <label for="prix">Prix:</label><br>
+    <input type="number" id="prix" name="prix" placeholder="le prix"><br>
+
+    <label for="en_stock">Active:</label><br>
+    <input type="checkbox" id="en_stock" name="active"><br>
+
+    <label for="disponible">Live:</label><br>
+    <input type="checkbox" id="disponible" name="live"><br>
+
+    <button style="color: blue;">create product</button>
+
 </form>
-
-
+{% if message %}
+<p style="color: green;">{{message}} </p>
+{% endif%}
 
 {% endblock content %}
