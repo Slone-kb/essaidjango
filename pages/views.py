@@ -2,7 +2,7 @@ from django.core.mail import message
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from produits.models import Produits
-from .forms import ProduitsForms
+from .forms import ProduitsForms, PureProduitsForm
 
 # Create your views here.
 def home_views(request):
@@ -49,24 +49,24 @@ def produits_liste_views(request):
 
 
 #pour le formulaire de creation d un produit
-def produits_forms_views(request):
-    form=ProduitsForms(request.POST or None)
-    message=' '
+# def produits_forms_views(request):
+#     form=ProduitsForms(request.POST or None)
+#     message=' '
    
     
-    if request.method == 'POST':
-        form = ProduitsForms(request.POST )
-        if form.is_valid():
-            form.save()
-            message= "Produit créé avec succès"
-            form = ProduitsForms()
-    else:
-        form = ProduitsForms()
-    context = {
-        'message': message,
-        'form': form,  # Correction : suppression de l'espace inutile
-    }
-    return render(request, 'produits/create.html', context)
+#     if request.method == 'POST':
+#         form = ProduitsForms(request.POST )
+#         if form.is_valid():
+#             form.save()
+#             message= "Produit créé avec succès"
+#             form = ProduitsForms()
+#     else:
+#         form = ProduitsForms()
+#     context = {
+#         'message': message,
+#         'form': form,  # Correction : suppression de l'espace inutile
+#     }
+#     return render(request, 'produits/create.html', context)
 
 # 5. Afficher UN SEUL produit (Détail par ID)
 def produits_details_views(request, id):
@@ -77,15 +77,35 @@ def produits_details_views(request, id):
     }
     return render(request, 'produits/details.html', context)
 
-def produits_create_views(request):
+def produits_create_views(request, *args, **kwargs):
     message=' '
+    # 1. On initialise TOUJOURS le formulaire en haut de la fonction.
+    # S'il y a des données POST, il les prend. Sinon (en GET), il est vide.
+    form = PureProduitsForm(request.POST or None)
+    
     if request.method == 'POST':
-        nom= request.POST.get('nom')
-        description= request.POST.get('description')
-        prix=request.POST.get('prix')
-        active=request.POST.get('active')
-        live=request.POST.get('live')
-        if nom and prix:
-            produits=Produits.objects.create(nom = nom, description = description, prix = prix, active = active, live = live )
-            message = "Produit créé avec succès"
-            return render(request, 'produits/create.html', {'message': message})
+        # nom= request.POST.get('nom')
+        # description= request.POST.get('description')
+        # prix=request.POST.get('prix')
+        # active=request.POST.get('active')
+        # live=request.POST.get('live')
+        # if nom and prix:
+        #     produits=Produits.objects.create(nom = nom, description = description, prix = prix, active = active, live = live )
+        #     message = "Produit créé avec succès"
+        #     return render(request, 'produits/create.html', {'message': message})
+
+        if form.is_valid():
+            data = form.cleaned_data
+            Produits.objects.create(**data)
+            message = "produit cree avec succes"
+            
+            # 2. On réinitialise un formulaire vide après un succès
+            form = PureProduitsForm()
+        else:
+            # 🚨 AJOUTEZ CETTE LIGNE POUR VOIR LES ERREURS DANS LE TERMINAL
+            print("ERREURS DU FORMULAIRE :", form.errors)
+    # 3. Le return s'exécute dans tous les cas (GET, POST valide ou POST invalide)
+    return render(request, "produits/create.html", {
+        'message': message, 
+        'form': form
+    })
